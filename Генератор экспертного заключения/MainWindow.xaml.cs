@@ -32,8 +32,11 @@ namespace Генератор_экспертного_заключения
             _wordapp = new Word.Application();
         }
 
-        private object _extend;
-        private string _pathFolder;
+        string p1;
+        string p2;
+        string p3;
+        string p4;
+        string p5;
         private readonly string _startPathFolder = Directory.GetCurrentDirectory();
         private Word.Application _wordapp;
         private Word.Document _worddocument;
@@ -41,11 +44,9 @@ namespace Генератор_экспертного_заключения
         winForms.OpenFileDialog fileDialog1 = new winForms.OpenFileDialog();
         Word.Paragraph wordParag;
         Word.Table wordTable;
-        string p1;
-        string p2;
-        string p3;
-        string p4;
-        string p5;
+        Excel.Application objWorkExcel = new Excel.Application();
+
+
 
         string zak = "";
         string date = "";
@@ -97,7 +98,7 @@ namespace Генератор_экспертного_заключения
 
             p3 = fileDialog1.FileName;
             lab1.Content = "Загружено";
-            //l1.Items.Add(p1);
+
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -163,7 +164,20 @@ namespace Генератор_экспертного_заключения
 
 
                 _wordapp.Documents.Open(path + "\\" + auto + " " + gosN + " " + FIO + ".doc");
+                try
+                {
+                    string filename = p3;
+                    Excel.Workbook objWorkBook = objWorkExcel.Workbooks.Open(filename);
+                    Excel.Worksheet objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets[1];
+                    var excelcells = objWorkSheet.get_Range("A1", "D20").Copy();
+                    wordTable = _worddocument.Tables[5];
+                    cellRange = wordTable.Cell(1, 1).Range;
+                    cellRange.Paste();
+                }
+                catch
+                {
 
+                }
                 //    _wordapp.Selection.InsertFile(_pathFolder + "\\" + var + ".doc", Type.Missing, false);
                 _worddocument = _wordapp.ActiveDocument;
                 wordTable = _worddocument.Tables[5];
