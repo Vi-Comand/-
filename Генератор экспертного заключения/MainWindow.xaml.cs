@@ -1,10 +1,12 @@
-﻿using Microsoft.Office.Interop.Word;
+﻿using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Word;
 using pdfforge.PDFCreator.UI.ComWrapper;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -173,11 +175,35 @@ namespace Генератор_экспертного_заключения
                     string filename = p3;
                     Excel.Workbook objWorkBook = objWorkExcel.Workbooks.Open(filename);
                     Excel.Worksheet objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets[1];
-                    Excel.Range range = objWorkSheet.get_Range("B:B").Find("");
-                    var excelcells = objWorkSheet.get_Range("A1", "D20").Copy();
-                    wordTable = _worddocument.Tables[5];
-                    cellRange = wordTable.Cell(1, 1).Range;
-                    cellRange.Paste();
+                    string poisk = "";
+                    int i = 1;
+                    var excelcells = objWorkSheet.Cells.Find("q", Type.Missing, Type.Missing, Excel.XlLookAt.xlPart, Type.Missing,
+    Excel.XlSearchDirection.xlNext,
+    Type.Missing, Type.Missing, Type.Missing);
+
+                    var stolb = Convert.ToString(excelcells.Column);
+                    var strok = Convert.ToString(excelcells.Rows.Row);
+
+
+
+
+                    var x = objWorkSheet.Cells[strok, stolb].Top;
+                    var y = objWorkSheet.Cells[strok, stolb].Left;
+
+                    objWorkSheet.Shapes.AddPicture(@"C:\1\rat.jpg", MsoTriState.msoFalse, MsoTriState.msoCTrue, y, x, 60, 60);
+
+                    objWorkBook.Save();
+                    objWorkBook.Close(true);
+
+
+
+
+
+                    /* Excel.Range range = objWorkSheet.get_Range("B:B").Find("");
+                     var excelcells = objWorkSheet.get_Range("A1", "D20").Copy();
+                     wordTable = _worddocument.Tables[5];
+                     cellRange = wordTable.Cell(1, 1).Range;
+                     cellRange.Paste();*/
                 }
                 catch (Exception ex)
                 {
