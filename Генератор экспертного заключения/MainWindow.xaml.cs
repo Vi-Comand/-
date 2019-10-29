@@ -2,6 +2,7 @@
 using pdfforge.PDFCreator.UI.ComWrapper;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -153,69 +154,164 @@ namespace Генератор_экспертного_заключения
             Object newTemplate = false;
             Object documentType = Word.WdNewDocumentType.wdNewBlankDocument;
             Object template = _startPathFolder + "\\Шаблон.docx";
+            Object template2 = _startPathFolder + "\\Шаблан_акт.docx";
+            Object template3 = _startPathFolder + "\\Шаблон_фото.docx";
             if (FIO != "" || auto != "" || gosN != "")
             {
                 string path = _startPathFolder + "\\" + FIO;
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
                 dirInfo.Create();
+
                 _worddocument = _wordapp.Documents.Add(ref template, ref newTemplate, ref documentType);
                 _worddocument.SaveAs(path + "\\" + auto + " " + gosN + " " + FIO + ".doc");
                 _worddocument.Close();
 
-
                 _wordapp.Documents.Open(path + "\\" + auto + " " + gosN + " " + FIO + ".doc");
+                _worddocument = _wordapp.ActiveDocument;
                 try
                 {
                     string filename = p3;
                     Excel.Workbook objWorkBook = objWorkExcel.Workbooks.Open(filename);
                     Excel.Worksheet objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets[1];
+                    Excel.Range range = objWorkSheet.get_Range("B:B").Find("");
                     var excelcells = objWorkSheet.get_Range("A1", "D20").Copy();
                     wordTable = _worddocument.Tables[5];
                     cellRange = wordTable.Cell(1, 1).Range;
                     cellRange.Paste();
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message);
                 }
                 //    _wordapp.Selection.InsertFile(_pathFolder + "\\" + var + ".doc", Type.Missing, false);
-                _worddocument = _wordapp.ActiveDocument;
-                wordTable = _worddocument.Tables[5];
 
-                for (int i = 1; i <= l1.Items.Count; i++)
-                {
-                    cellRange = wordTable.Cell(i, 1).Range;
-                    var shape = cellRange.InlineShapes.AddPicture(l1.Items[i - 1].ToString(), Type.Missing, Type.Missing, Type.Missing);
-                    shape.Width = 566;
-                    shape.Height = 377;
-                    wordTable.Rows.Add();
-                }
+                int col_v_doc3 = 1;
                 wordTable = _worddocument.Tables[6];
-                for (int i = 1; i <= l2.Items.Count; i++)
+                for (int i = 0; i < l3.Items.Count; i++)
                 {
-                    cellRange = wordTable.Cell(i, 1).Range;
-                    var shape = cellRange.InlineShapes.AddPicture(l2.Items[i - 1].ToString(), Type.Missing, Type.Missing, Type.Missing);
-                    shape.Width = 300;
-                    shape.Height = 150;
-                    wordTable.Rows.Add();
+                    var format = l3.Items[i].ToString().Remove(0, l3.Items[i].ToString().Length - 3);
+
+                    if (format != "pdf")
+                    {
+                        cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                        var shape = cellRange.InlineShapes.AddPicture(l3.Items[i].ToString(), Type.Missing, Type.Missing, Type.Missing);
+                        float w = shape.Width;
+                        float h = shape.Height;
+                        float c = w / 950;
+                        h = h / c;
+                        if (h < 550)
+                        {
+                            shape.Width = 950;
+                            shape.Height = h;
+                        }
+                        else
+                        {
+                            h = shape.Height;
+                            c = h / 550;
+                            w = w / c;
+                            shape.Width = w;
+                            shape.Height = 550;
+                        }
+                        wordTable.Rows.Add();
+                        col_v_doc3++;
+                    }
+                    else
+                    {
+                        var names = ConvertPDFtoHojas(l3.Items[i].ToString(), path);
+                        foreach (var name in names)
+                        {
+                            cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                            var shape = cellRange.InlineShapes.AddPicture(path + @"\" + name, Type.Missing, Type.Missing, Type.Missing);
+                            float w = shape.Width;
+                            float h = shape.Height;
+                            //float c = w / 950;
+                            //h = h / c;
+                            //if (h < 550)
+                            //{
+                            //    shape.Width = 950;
+                            //    shape.Height = h;
+                            //}
+                            //else
+                            //{
+                            //    h = shape.Height;
+                            //    c = h / 550;
+                            //    w = w / c;
+                            //    shape.Width = w;
+                            //    shape.Height = 550;
+                            //}
+
+                            wordTable.Rows.Add();
+                            col_v_doc3++;
+                            System.IO.File.Delete(path + @"\" + name);
+
+                        }
+
+                    }
                 }
+
+
+                int col_v_doc4 = 1;
                 wordTable = _worddocument.Tables[7];
-                for (int i = 1; i <= l3.Items.Count; i++)
+                for (int i = 0; i < l4.Items.Count; i++)
                 {
-                    cellRange = wordTable.Cell(i, 1).Range;
-                    var shape = cellRange.InlineShapes.AddPicture(l3.Items[i - 1].ToString(), Type.Missing, Type.Missing, Type.Missing);
-                    shape.Width = 566;
-                    shape.Height = 377;
-                    wordTable.Rows.Add();
-                }
-                wordTable = _worddocument.Tables[8];
-                for (int i = 1; i <= l4.Items.Count; i++)
-                {
-                    cellRange = wordTable.Cell(i, 1).Range;
-                    var shape = cellRange.InlineShapes.AddPicture(l4.Items[i - 1].ToString(), Type.Missing, Type.Missing, Type.Missing);
-                    shape.Width = 566;
-                    shape.Height = 377;
-                    wordTable.Rows.Add();
+                    var format = l4.Items[i].ToString().Remove(0, l4.Items[i].ToString().Length - 3);
+
+                    if (format != "pdf")
+                    {
+                        cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                        var shape = cellRange.InlineShapes.AddPicture(l4.Items[i].ToString(), Type.Missing, Type.Missing, Type.Missing);
+                        float w = shape.Width;
+                        float h = shape.Height;
+                        float c = w / 950;
+                        h = h / c;
+                        if (h < 550)
+                        {
+                            shape.Width = 950;
+                            shape.Height = h;
+                        }
+                        else
+                        {
+                            h = shape.Height;
+                            c = h / 550;
+                            w = w / c;
+                            shape.Width = w;
+                            shape.Height = 550;
+                        }
+                        wordTable.Rows.Add();
+                        col_v_doc4++;
+                    }
+                    else
+                    {
+                        var names = ConvertPDFtoHojas(l4.Items[i].ToString(), path);
+                        foreach (var name in names)
+                        {
+                            cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                            var shape = cellRange.InlineShapes.AddPicture(path + @"\" + name, Type.Missing, Type.Missing, Type.Missing);
+                            float w = shape.Width;
+                            float h = shape.Height;
+                            //float c = w / 950;
+                            //h = h / c;
+                            //if (h < 550)
+                            //{
+                            //    shape.Width = 950;
+                            //    shape.Height = h;
+                            //}
+                            //else
+                            //{
+                            //    h = shape.Height;
+                            //    c = h / 550;
+                            //    w = w / c;
+                            //    shape.Width = w;
+                            //    shape.Height = 550;
+                            //}
+
+                            wordTable.Rows.Add();
+                            col_v_doc4++;
+                            System.IO.File.Delete(path + @"\" + name);
+
+                        }
+
+                    }
                 }
 
                 Object missing = Type.Missing;
@@ -343,8 +439,243 @@ namespace Генератор_экспертного_заключения
                     Wrap: Word.WdFindWrap.wdFindContinue,
                     Format: false, ReplaceWith: missing, Replace: Word.WdReplace.wdReplaceAll);
 
-                _wordapp.ActiveDocument.Save();
-                _wordapp.ActiveDocument.Close();
+                if (chec.IsChecked == false)
+                {
+                    _worddocument.SaveAs2(path + "\\" + auto + " " + gosN + " " + FIO + ".pdf", WdSaveFormat.wdFormatPDF);
+                    _worddocument.Save();
+                    _worddocument.Close();
+
+                    _worddocument = _wordapp.Documents.Add(ref template2, ref newTemplate, ref documentType);
+                    _worddocument.SaveAs(path + "\\Акт осмотра" + auto + " " + gosN + " " + FIO + ".doc");
+                    _worddocument.Close();
+                    _worddocument = _wordapp.Documents.Add(ref template3, ref newTemplate, ref documentType);
+                    _worddocument.SaveAs(path + "\\Фото" + auto + " " + gosN + " " + FIO + ".doc");
+                    _worddocument.Close();
+
+                    _wordapp.Documents.Open(path + "\\Фото" + auto + " " + gosN + " " + FIO + ".doc");
+                    _worddocument = _wordapp.ActiveDocument;
+                    wordTable = _worddocument.Tables[1];
+                    int col_v_doc2 = 1;
+                    for (int i = 1; i <= l2.Items.Count;)
+                    {
+                        try
+                        {
+                            for (int j = 1; j < 3; j++)
+                            {
+                                cellRange = wordTable.Cell(i, j).Range;
+                                var shape = cellRange.InlineShapes.AddPicture(l2.Items[(i - 1)].ToString(), Type.Missing, Type.Missing, Type.Missing);
+                                float w = shape.Width;
+                                float h = shape.Height;
+                                float c = w / 480;
+                                h = h / c;
+                                if (h < 250)
+                                {
+                                    shape.Width = 480;
+                                    shape.Height = h;
+                                }
+                                else
+                                {
+                                    h = shape.Height;
+                                    c = h / 250;
+                                    w = w / c;
+                                    shape.Width = w;
+                                    shape.Height = 250;
+                                }
+                                i++;
+                            }
+                            wordTable.Rows.Add();
+                        }
+                        catch { }
+                    }
+                    _worddocument.SaveAs2(path + "\\Фото" + auto + " " + gosN + " " + FIO + ".pdf", WdSaveFormat.wdFormatPDF);
+                    _worddocument.Save();
+                    _worddocument.Close();
+
+                    _wordapp.Documents.Open(path + "\\Акт осмотра" + auto + " " + gosN + " " + FIO + ".doc");
+                    _worddocument = _wordapp.ActiveDocument;
+                    wordTable = _worddocument.Tables[1];
+                    int col_v_doc1 = 1;
+
+                    for (int i = 0; i < l1.Items.Count; i++)
+                    {
+                        var format = l1.Items[i].ToString().Remove(0, l1.Items[i].ToString().Length - 3);
+
+                        if (format != "pdf")
+                        {
+                            cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                            var shape = cellRange.InlineShapes.AddPicture(l1.Items[i].ToString(), Type.Missing, Type.Missing, Type.Missing);
+                            float w = shape.Width;
+                            float h = shape.Height;
+                            float c = w / 950;
+                            h = h / c;
+                            if (h < 550)
+                            {
+                                shape.Width = 950;
+                                shape.Height = h;
+                            }
+                            else
+                            {
+                                h = shape.Height;
+                                c = h / 550;
+                                w = w / c;
+                                shape.Width = w;
+                                shape.Height = 550;
+                            }
+                            wordTable.Rows.Add();
+                            col_v_doc1++;
+                        }
+                        else
+                        {
+                            var names = ConvertPDFtoHojas(l1.Items[i].ToString(), path);
+                            foreach (var name in names)
+                            {
+                                cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                                var shape = cellRange.InlineShapes.AddPicture(path + @"\" + name, Type.Missing, Type.Missing, Type.Missing);
+                                float w = shape.Width;
+                                float h = shape.Height;
+                                //float c = w / 950;
+                                //h = h / c;
+                                //if (h < 550)
+                                //{
+                                //    shape.Width = 950;
+                                //    shape.Height = h;
+                                //}
+                                //else
+                                //{
+                                //    h = shape.Height;
+                                //    c = h / 550;
+                                //    w = w / c;
+                                //    shape.Width = w;
+                                //    shape.Height = 550;
+                                //}
+
+                                wordTable.Rows.Add();
+                                col_v_doc1++;
+                                System.IO.File.Delete(path + @"\" + name);
+
+                            }
+
+                        }
+                    }
+                    _worddocument.SaveAs2(path + "\\Акт осмотра" + auto + " " + gosN + " " + FIO + ".pdf", WdSaveFormat.wdFormatPDF);
+                    _worddocument.Save();
+                    _worddocument.Close();
+
+                }
+                else
+                {
+
+                    wordTable = _worddocument.Tables[8];
+                    int col_v_doc1 = 1;
+
+                    for (int i = 0; i < l1.Items.Count; i++)
+                    {
+                        var format = l1.Items[i].ToString().Remove(0, l1.Items[i].ToString().Length - 3);
+
+                        if (format != "pdf")
+                        {
+                            cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                            var shape = cellRange.InlineShapes.AddPicture(l1.Items[i].ToString(), Type.Missing, Type.Missing, Type.Missing);
+                            float w = shape.Width;
+                            float h = shape.Height;
+                            float c = w / 950;
+                            h = h / c;
+                            if (h < 550)
+                            {
+                                shape.Width = 950;
+                                shape.Height = h;
+                            }
+                            else
+                            {
+                                h = shape.Height;
+                                c = h / 550;
+                                w = w / c;
+                                shape.Width = w;
+                                shape.Height = 550;
+                            }
+                            wordTable.Rows.Add();
+                            col_v_doc1++;
+                        }
+                        else
+                        {
+                            var names = ConvertPDFtoHojas(l1.Items[i].ToString(), path);
+                            foreach (var name in names)
+                            {
+                                cellRange = wordTable.Cell(col_v_doc3, 1).Range;
+                                var shape = cellRange.InlineShapes.AddPicture(path + @"\" + name, Type.Missing, Type.Missing, Type.Missing);
+                                float w = shape.Width;
+                                float h = shape.Height;
+                                //float c = w / 950;
+                                //h = h / c;
+                                //if (h < 550)
+                                //{
+                                //    shape.Width = 950;
+                                //    shape.Height = h;
+                                //}
+                                //else
+                                //{
+                                //    h = shape.Height;
+                                //    c = h / 550;
+                                //    w = w / c;
+                                //    shape.Width = w;
+                                //    shape.Height = 550;
+                                //}
+
+                                wordTable.Rows.Add();
+                                col_v_doc1++;
+                                System.IO.File.Delete(path + @"\" + name);
+
+                            }
+
+                        }
+                    }
+
+                    var _currentRange = _worddocument.Range(_worddocument.Content.End - 1, _worddocument.Content.End);
+                    _currentRange.InsertBreak(Word.WdBreakType.wdSectionBreakNextPage);
+                    _currentRange.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
+
+                    _currentRange = _worddocument.Range(_worddocument.Content.End - 1, _worddocument.Content.End);
+                    _worddocument.Tables.Add(_currentRange, 1, 1);
+                    wordTable = _worddocument.Tables[9];
+                    int col_v_doc2 = 1;
+                    for (int i = 1; i <= l2.Items.Count;)
+                    {
+                        try
+                        {
+                            for (int j = 1; j < 3; j++)
+                            {
+                                cellRange = wordTable.Cell(i, j).Range;
+                                var shape = cellRange.InlineShapes.AddPicture(l2.Items[(i - 1)].ToString(), Type.Missing, Type.Missing, Type.Missing);
+                                float w = shape.Width;
+                                float h = shape.Height;
+                                float c = w / 480;
+                                h = h / c;
+                                if (h < 250)
+                                {
+                                    shape.Width = 480;
+                                    shape.Height = h;
+                                }
+                                else
+                                {
+                                    h = shape.Height;
+                                    c = h / 250;
+                                    w = w / c;
+                                    shape.Width = w;
+                                    shape.Height = 250;
+                                }
+                                i++;
+                            }
+                            wordTable.Rows.Add();
+                        }
+                        catch { }
+                    }
+                    _worddocument.SaveAs2(path + "\\" + auto + " " + gosN + " " + FIO + ".pdf", WdSaveFormat.wdFormatPDF);
+                    _worddocument.Save();
+                    _worddocument.Close();
+                }
+
+
+
             }
             else
             {
@@ -371,5 +702,52 @@ namespace Генератор_экспертного_заключения
         {
             l4.Items.Clear();
         }
+
+        public List<string> ConvertPDFtoHojas(string filename, String dirOut)
+        {
+            PDFLibNet32.PDFWrapper _pdfDoc = new PDFLibNet32.PDFWrapper();
+            _pdfDoc.LoadPDF(filename);
+            List<string> mas = new List<string>();
+            for (int i = 0; i < _pdfDoc.PageCount; i++)
+            {
+
+                System.Drawing.Image img = RenderPage(_pdfDoc, i);
+                string name = string.Format("{0}{1}.jpg", i, DateTime.Now.ToString("mmss"));
+                img.Save(System.IO.Path.Combine(dirOut, name));
+                mas.Add(name);
+            }
+            _pdfDoc.Dispose();
+            return mas;
+        }
+        public System.Drawing.Image RenderPage(PDFLibNet32.PDFWrapper doc, int page)
+        {
+            doc.CurrentPage = page + 1;
+            doc.CurrentX = 0;
+            doc.CurrentY = 0;
+            doc.RenderDPI = 300;
+            doc.RenderPage(IntPtr.Zero);
+
+            // create an image to draw the page into
+            var buffer = new Bitmap(doc.PageWidth, doc.PageHeight);
+            doc.ClientBounds = new System.Drawing.Rectangle(0, 0, doc.PageWidth, doc.PageHeight);
+            using (var g = Graphics.FromImage(buffer))
+            {
+                var hdc = g.GetHdc();
+                try
+                {
+                    doc.DrawPageHDC(hdc);
+                }
+                finally
+                {
+                    g.ReleaseHdc();
+                }
+            }
+            return buffer;
+
+        }
+
+
+
+
     }
 }
