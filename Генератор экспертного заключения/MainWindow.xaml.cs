@@ -32,7 +32,7 @@ namespace Генератор_экспертного_заключения
         public MainWindow()
         {
             InitializeComponent();
-            _wordapp = new Word.Application();
+
         }
 
         string p1;
@@ -130,6 +130,7 @@ namespace Генератор_экспертного_заключения
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
+            _wordapp = new Word.Application();
             zak = textBox1.Text;
             try { date = date1.SelectedDate.Value.Date.ToString(); } catch { }
             exp = textBox12.Text;
@@ -158,7 +159,7 @@ namespace Генератор_экспертного_заключения
             Object template = _startPathFolder + "\\Шаблон.docx";
             Object template2 = _startPathFolder + "\\Шаблан_акт.docx";
             Object template3 = _startPathFolder + "\\Шаблон_фото.docx";
-            if (FIO != "" || auto != "" || gosN != "")
+            if (FIO != "" && auto != "" && gosN != "" && p3 != null)
             {
                 string path = _startPathFolder + "\\" + FIO;
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
@@ -170,45 +171,9 @@ namespace Генератор_экспертного_заключения
 
                 _wordapp.Documents.Open(path + "\\" + auto + " " + gosN + " " + FIO + ".doc");
                 _worddocument = _wordapp.ActiveDocument;
-                try
-                {
-                    string filename = p3;
-                    Excel.Workbook objWorkBook = objWorkExcel.Workbooks.Open(filename);
-                    Excel.Worksheet objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets[1];
-                    string poisk = "";
-                    int i = 1;
-                    var excelcells = objWorkSheet.Cells.Find("q", Type.Missing, Type.Missing, Excel.XlLookAt.xlPart, Type.Missing,
-    Excel.XlSearchDirection.xlNext,
-    Type.Missing, Type.Missing, Type.Missing);
+                Object missing = Type.Missing;
+                Word.Find find = _wordapp.Selection.Find;
 
-                    var stolb = Convert.ToString(excelcells.Column);
-                    var strok = Convert.ToString(excelcells.Rows.Row);
-
-
-
-
-                    var x = objWorkSheet.Cells[strok, stolb].Top;
-                    var y = objWorkSheet.Cells[strok, stolb].Left;
-
-                    objWorkSheet.Shapes.AddPicture(@"C:\1\rat.jpg", MsoTriState.msoFalse, MsoTriState.msoCTrue, y, x, 60, 60);
-
-                    objWorkBook.Save();
-                    objWorkBook.Close(true);
-
-
-
-
-
-                    /* Excel.Range range = objWorkSheet.get_Range("B:B").Find("");
-                     var excelcells = objWorkSheet.get_Range("A1", "D20").Copy();
-                     wordTable = _worddocument.Tables[5];
-                     cellRange = wordTable.Cell(1, 1).Range;
-                     cellRange.Paste();*/
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
                 //    _wordapp.Selection.InsertFile(_pathFolder + "\\" + var + ".doc", Type.Missing, false);
 
                 int col_v_doc3 = 1;
@@ -340,8 +305,7 @@ namespace Генератор_экспертного_заключения
                     }
                 }
 
-                Object missing = Type.Missing;
-                Word.Find find = _wordapp.Selection.Find;
+
 
 
                 //    worddocument.Activate();
@@ -464,6 +428,83 @@ namespace Генератор_экспертного_заключения
                     MatchSoundsLike: missing, MatchAllWordForms: false, Forward: true,
                     Wrap: Word.WdFindWrap.wdFindContinue,
                     Format: false, ReplaceWith: missing, Replace: Word.WdReplace.wdReplaceAll);
+
+
+
+                string filename = p3;
+                Excel.Workbook objWorkBook = objWorkExcel.Workbooks.Open(filename);
+                Excel.Worksheet objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets[1];
+                string poisk = "";
+
+                var excelcells = objWorkSheet.Cells.Find("<М.П.>", Type.Missing, Type.Missing, Excel.XlLookAt.xlPart, Type.Missing,
+Excel.XlSearchDirection.xlNext,
+Type.Missing, Type.Missing, Type.Missing);
+
+                int stolb = Convert.ToInt16(excelcells.Column);
+                int strok = Convert.ToInt16(excelcells.Rows.Row);
+
+
+
+
+                var x = objWorkSheet.Cells[(strok), stolb].Top;
+                var yy = objWorkSheet.Cells[(strok), stolb].Left;
+
+                objWorkSheet.Shapes.AddPicture(_startPathFolder + "\\Печать.jpg", MsoTriState.msoFalse, MsoTriState.msoCTrue, yy, x, 100, 100);
+                objWorkBook.Save();
+
+
+                // string ext = xlSheetPath.Substring(xlSheetPath.LastIndexOf("."),
+                //     xlSheetPath.Length - xlSheetPath.LastIndexOf("."));
+                // int xlVersion = (xlSheetPath.Substring(xlSheetPath.LastIndexOf("."),
+                //     xlSheetPath.Length - xlSheetPath.LastIndexOf(".")) == ".xls") ? 8 : 12;
+
+
+                //wdapp.Selection.Fields.Add(wdapp.Selection.Range, Word.WdFieldType.wdFieldLink,
+                //    "Excel.Sheet." + xlVersion.ToString() + " " + xlSheetPath + " Лист1!A1G1:A290G290 \\a \\f 5 \\h", true);
+                //wdapp.Visible = true;
+
+                // Microsoft.Office.Interop.Excel._Application xlApp = new Excel.Application();
+                //  xlApp.Visible = true;
+                // Excel.Workbook workbook = xlApp.Workbooks.Open(xlSheetPath);
+                //  Excel.Worksheet worksheet = workbook.Sheets[1];
+
+                //Word._Application wdApp = new Word.Application();
+                //wdApp.Visible = true;
+                // Word.Document document = wdApp.Documents.Add();
+                // document.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
+
+                objWorkSheet.Range["A1", "G" + (strok + 4)].Copy();
+                wordTable = _worddocument.Tables[5];
+                cellRange = wordTable.Cell(1, 1).Range;
+                cellRange.PasteSpecial();
+
+                wordTable.Select();
+                _wordapp.Selection.Paragraphs.Space1();
+                _wordapp.Selection.ParagraphFormat.LineUnitAfter = 0;
+                _wordapp.Selection.ParagraphFormat.LineUnitBefore = 0;
+                //       Range range = _wordapp.ActiveDocument.Content;
+
+                //       find.Text = "<М.П.>"; // текст поиска
+                //       if (find.Execute(ref missing, ref missing, ref missing, ref missing, ref missing,
+                //ref missing, ref missing, ref missing, ref missing, ref missing,
+                // ref missing, ref missing, ref missing, ref missing, ref missing))
+                //       {
+
+                //           range.InlineShapes.AddPicture(_startPathFolder + "\\Печать.jpg", ref missing, ref missing, ref missing);
+                //           find.Replacement.ClearFormatting();
+                //           find.Replacement.Text = "";
+                //           object replaceOne = Microsoft.Office.Interop.Word.WdReplace.wdReplaceOne;
+                //           find.Execute(ref missing, ref missing, ref missing, ref missing, ref missing,
+                //              ref missing, ref missing, ref missing, ref missing, ref missing,
+                //               ref replaceOne, ref missing, ref missing, ref missing, ref missing);
+                //       }
+
+                //objWorkBook.Save();
+                objWorkBook.Close(false);
+
+
+
+
 
                 if (chec.IsChecked == false)
                 {
@@ -661,8 +702,13 @@ namespace Генератор_экспертного_заключения
                     _currentRange.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
 
                     _currentRange = _worddocument.Range(_worddocument.Content.End - 1, _worddocument.Content.End);
-                    _worddocument.Tables.Add(_currentRange, 1, 1);
+                    _worddocument.Tables.Add(_currentRange, 1, 2);
                     wordTable = _worddocument.Tables[9];
+                    wordTable.TopPadding = 2;
+                    wordTable.LeftPadding = 2;
+                    wordTable.RightPadding = 2;
+                    wordTable.BottomPadding = 2;
+
                     int col_v_doc2 = 1;
                     for (int i = 1; i <= l2.Items.Count;)
                     {
@@ -699,7 +745,7 @@ namespace Генератор_экспертного_заключения
                     _worddocument.Save();
                     _worddocument.Close();
                 }
-
+                MessageBox.Show("Готово");
 
 
             }
