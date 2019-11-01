@@ -7,52 +7,54 @@
         mc:Ignorable="d"
         Title="Генератор экспертного заключения" Height="507.983" Width="1123.95">
     <Grid>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="33" Margin="271,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="33" Margin="271,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="33" Margin="271,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="1" />
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="33" Margin="271,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="3" />
         <Label x:Name="label" Content="ЭКСПЕРТНОЕ ЗАКЛЮЧЕНИЕ №" HorizontalAlignment="Left" Margin="18,21,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy1" Content="Дата составления" HorizontalAlignment="Left" Margin="18,54,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-        <Label x:Name="label_Copy2" Content="Эксперт-техник ФИО" HorizontalAlignment="Left" Margin="501,16,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
+        <Label x:Name="label_Copy2" Content="Эксперт-техник ФИО" HorizontalAlignment="Left" Margin="501,16,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16" Visibility="Hidden"/>
         <Label x:Name="label_Copy" Content="Номер кузова (шасси)" HorizontalAlignment="Left" Margin="18,207,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy3" Content="Гос.номер" HorizontalAlignment="Left" Margin="18,169,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy4" Content="Год и месяц выпуска" HorizontalAlignment="Left" Margin="18,131,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy5" Content="Автотранспортное средство" HorizontalAlignment="Left" Margin="18,93,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="33" Margin="271,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="33" Margin="271,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox5" HorizontalAlignment="Left" Height="33" Margin="271,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <DatePicker x:Name="date1"  HorizontalAlignment="Left" Height="28" Margin="271,54,0,0" VerticalAlignment="Top" Width="223"/>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="33" Margin="271,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="4" />
+        <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="33" Margin="271,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="5" />
+        <TextBox x:Name="textBox5" HorizontalAlignment="Left" Height="33" Margin="271,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="6" />
+        <DatePicker x:Name="date1"  HorizontalAlignment="Left" Height="28" Margin="271,54,0,0" VerticalAlignment="Top" Width="223" TabIndex="2"/>
         <Label x:Name="label_Copy6" Content="Технический паспорт " HorizontalAlignment="Left" Margin="18,359,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy7" Content="Пробег (км)" HorizontalAlignment="Left" Margin="18,321,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy8" Content="Цвет кузова" HorizontalAlignment="Left" Margin="18,283,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy9" Content="Идентификационный номер (VIN)" HorizontalAlignment="Left" Margin="18,245,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-        <TextBox x:Name="textBox12" HorizontalAlignment="Left" Height="33" Margin="725,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox11" HorizontalAlignment="Left" Height="33" Margin="271,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox10" HorizontalAlignment="Left" Height="33" Margin="271,392,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox9" HorizontalAlignment="Left" Height="33" Margin="271,354,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox8" HorizontalAlignment="Left" Height="33" Margin="271,316,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox7" HorizontalAlignment="Left" Height="33" Margin="271,278,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <TextBox x:Name="textBox6" HorizontalAlignment="Left" Height="33" Margin="271,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
+        <TextBox x:Name="textBox12" HorizontalAlignment="Left" Height="33" Margin="725,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" Visibility="Hidden" />
+        <TextBox x:Name="textBox11" HorizontalAlignment="Left" Height="33" Margin="271,430,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="12" />
+        <TextBox x:Name="textBox10" HorizontalAlignment="Left" Height="33" Margin="271,392,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="11" />
+        <TextBox x:Name="textBox9" HorizontalAlignment="Left" Height="33" Margin="271,354,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="10" />
+        <TextBox x:Name="textBox8" HorizontalAlignment="Left" Height="33" Margin="271,316,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="9" />
+        <TextBox x:Name="textBox7" HorizontalAlignment="Left" Height="33" Margin="271,278,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="8" />
+        <TextBox x:Name="textBox6" HorizontalAlignment="Left" Height="33" Margin="271,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" TabIndex="7" />
         <Label x:Name="label_Copy10" Content="Доверенное лицо" HorizontalAlignment="Left" Margin="18,435,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
         <Label x:Name="label_Copy11" Content="Принадлежащего" HorizontalAlignment="Left" Margin="18,397,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-        <TextBox x:Name="textBox13" HorizontalAlignment="Left" Height="33" Margin="725,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" />
-        <DatePicker x:Name="date2" HorizontalAlignment="Left" Height="28" Margin="725,88,0,0" VerticalAlignment="Top" Width="223"/>
-        <Label x:Name="label_Copy12" Content="Выписка дата" HorizontalAlignment="Left" Margin="501,88,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-        <Label x:Name="label_Copy13" Content="Выписка №" HorizontalAlignment="Left" Margin="501,54,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-        <Button Content="Загрузить акт осмотра" HorizontalAlignment="Left" Height="28" Margin="501,131,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click"/>
-        <Button Content="Загрузить фото повреждений" HorizontalAlignment="Left" Height="28" Margin="501,199,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_1"/>
-        <Button Content="Загрузить расчет стоимости ущерба" HorizontalAlignment="Left" Height="28" Margin="501,403,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_2"/>
-        <Button Content="Загрузить СОР" HorizontalAlignment="Left" Height="28" Margin="501,267,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_3"/>
-        <Button Content="Загрузить документ по ДТП" HorizontalAlignment="Left" Height="28" Margin="501,335,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_4"/>
+        <TextBox x:Name="textBox13" HorizontalAlignment="Left" Height="33" Margin="725,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" Visibility="Hidden" />
+        <DatePicker x:Name="date2" HorizontalAlignment="Left" Height="28" Margin="725,88,0,0" VerticalAlignment="Top" Width="223" Visibility="Hidden"/>
+        <Label x:Name="label_Copy12" Content="Выписка дата" HorizontalAlignment="Left" Margin="501,88,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16" Visibility="Hidden"/>
+        <Label x:Name="label_Copy13" Content="Выписка №" HorizontalAlignment="Left" Margin="501,54,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16" Visibility="Hidden"/>
+        <Button Content="Загрузить акт осмотра" HorizontalAlignment="Left" Height="28" Margin="506,15,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click"/>
+        <Button Content="Загрузить фото повреждений" HorizontalAlignment="Left" Height="28" Margin="506,83,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_1"/>
+        <Button Content="Загрузить расчет стоимости ущерба" HorizontalAlignment="Left" Height="28" Margin="506,287,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_2"/>
+        <Button Content="Загрузить СОР" HorizontalAlignment="Left" Height="28" Margin="506,151,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_3"/>
+        <Button Content="Загрузить документ по ДТП" HorizontalAlignment="Left" Height="28" Margin="506,219,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_4"/>
         <Button Content="Сфорировать документ" HorizontalAlignment="Left" Height="64" Margin="887,403,0,0" VerticalAlignment="Top" Width="219" Click="Button_Click_5"/>
-        <ListBox x:Name="l1" HorizontalAlignment="Left" Height="63" Margin="725,131,0,0" VerticalAlignment="Top" Width="381"/>
-        <ListBox x:Name="l2" HorizontalAlignment="Left" Height="63" Margin="725,199,0,0" VerticalAlignment="Top" Width="381"/>
-        <ListBox x:Name="l3" HorizontalAlignment="Left" Height="63" Margin="725,267,0,0" VerticalAlignment="Top" Width="381"/>
-        <ListBox x:Name="l4" HorizontalAlignment="Left" Height="63" Margin="725,335,0,0" VerticalAlignment="Top" Width="381"/>
-        <Label x:Name="lab1" Content="" HorizontalAlignment="Left" Margin="725,405,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="659,166,0,0" VerticalAlignment="Top" Width="59" Click="och1"/>
-        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="659,370,0,0" VerticalAlignment="Top" Width="59" Click="och4"/>
-        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="659,300,0,0" VerticalAlignment="Top" Width="59" Click="och3"/>
-        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="659,234,0,0" VerticalAlignment="Top" Width="59" Click="och2"/>
-        <CheckBox Content="В одном документе" x:Name="chec" HorizontalAlignment="Left" Height="33" Margin="953,21,0,0" VerticalAlignment="Top" Width="153"/>
-
+        <ListBox x:Name="l1" HorizontalAlignment="Left" Height="63" Margin="730,15,0,0" VerticalAlignment="Top" Width="381"/>
+        <ListBox x:Name="l2" HorizontalAlignment="Left" Height="63" Margin="730,83,0,0" VerticalAlignment="Top" Width="381"/>
+        <ListBox x:Name="l3" HorizontalAlignment="Left" Height="63" Margin="730,151,0,0" VerticalAlignment="Top" Width="381"/>
+        <ListBox x:Name="l4" HorizontalAlignment="Left" Height="63" Margin="730,219,0,0" VerticalAlignment="Top" Width="381"/>
+        <Label x:Name="lab1" Content="" HorizontalAlignment="Left" Margin="730,289,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
+        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="664,50,0,0" VerticalAlignment="Top" Width="59" Click="och1"/>
+        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="664,254,0,0" VerticalAlignment="Top" Width="59" Click="och4"/>
+        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="664,184,0,0" VerticalAlignment="Top" Width="59" Click="och3"/>
+        <Button Content="Очистить" HorizontalAlignment="Left" Height="28" Margin="664,118,0,0" VerticalAlignment="Top" Width="59" Click="och2"/>
+        <CheckBox Content="В одном документе" x:Name="chec" HorizontalAlignment="Left" Height="33" Margin="887,365,0,0" VerticalAlignment="Top" Width="219"/>
+        <Button x:Name="sleep" Foreground="White" FontSize="26" 
+            BorderBrush="White" Background="#924B6663"
+            Padding="20" Visibility="Hidden">Производится формирование документа. Подождите...</Button>
     </Grid>
 </Window>
