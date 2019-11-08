@@ -264,7 +264,7 @@ namespace Генератор_экспертного_заключения
                     //    _wordapp.Selection.InsertFile(_pathFolder + "\\" + var + ".doc", Type.Missing, false);
 
                     int col_v_doc3 = 1;
-                    wordTable = _worddocument.Tables[6];
+                    wordTable = _worddocument.Tables[7];
                     for (int i = 0; i < l3.Items.Count; i++)
                     {
                         var format = l3.Items[i].ToString().Remove(0, l3.Items[i].ToString().Length - 3);
@@ -329,7 +329,7 @@ namespace Генератор_экспертного_заключения
 
 
                     int col_v_doc4 = 1;
-                    wordTable = _worddocument.Tables[7];
+                    wordTable = _worddocument.Tables[8];
                     for (int i = 0; i < l4.Items.Count; i++)
                     {
                         var format = l4.Items[i].ToString().Remove(0, l4.Items[i].ToString().Length - 3);
@@ -574,7 +574,7 @@ namespace Генератор_экспертного_заключения
                     // document.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
 
                     objWorkSheet.Range["A1", "G" + (strok + 4)].Copy();
-                    wordTable = _worddocument.Tables[5];
+                    wordTable = _worddocument.Tables[6];
                     cellRange = wordTable.Cell(1, 1).Range;
                     cellRange.PasteSpecial();
 
@@ -732,7 +732,7 @@ namespace Генератор_экспертного_заключения
                     else
                     {
 
-                        wordTable = _worddocument.Tables[8];
+                        wordTable = _worddocument.Tables[5];
                         int col_v_doc1 = 1;
 
                         for (int i = 0; i < l1.Items.Count; i++)
@@ -797,19 +797,20 @@ namespace Генератор_экспертного_заключения
                             }
                         }
 
-                        var _currentRange = _worddocument.Range(_worddocument.Content.End - 1, _worddocument.Content.End);
+                        var _currentRange = _worddocument.Range(wordTable.Range.End + 1, wordTable.Range.End + 2);
                         _currentRange.InsertBreak(Word.WdBreakType.wdSectionBreakNextPage);
                         _currentRange.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
 
-                        _currentRange = _worddocument.Range(_worddocument.Content.End - 1, _worddocument.Content.End);
+                        //_currentRange = _worddocument.Range(_worddocument.Content.End - 1, _worddocument.Content.End);
                         _worddocument.Tables.Add(_currentRange, 1, 2);
-                        wordTable = _worddocument.Tables[9];
+                        wordTable = _worddocument.Tables[6];
                         wordTable.TopPadding = 2;
                         wordTable.LeftPadding = 2;
                         wordTable.RightPadding = 2;
                         wordTable.BottomPadding = 2;
                         wordTable.Columns[1].Select();
                         _wordapp.Selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+                        
                         int col_v_doc2 = 1;
                         for (int i = 1; i <= l2.Items.Count;)
                         {
@@ -839,11 +840,15 @@ namespace Генератор_экспертного_заключения
                                     i++;
                                 }
                                 wordTable.Rows.Add();
-                                _currentRange.InsertBreak(Word.WdBreakType.wdSectionBreakNextPage);
-                                _currentRange.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait;
+
                             }
                             catch { }
                         }
+                        _currentRange = _worddocument.Range(wordTable.Range.End + 1, wordTable.Range.End + 2);
+                        _currentRange.InsertBreak(Word.WdBreakType.wdSectionBreakNextPage);
+                        _currentRange.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait;
+                        _wordapp.Selection.PageSetup.TopMargin = 5;
+                        _wordapp.Selection.PageSetup.BottomMargin = 5;
                         _worddocument.SaveAs2(path + "\\" + auto + " " + gosN + " " + FIO + ".pdf", WdSaveFormat.wdFormatPDF);
                         _worddocument.Save();
                         _worddocument.Close();
